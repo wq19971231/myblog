@@ -31,7 +31,7 @@ def get_blog_list_common_data(request, blogs_all_list):
     blog_dates = Blog.objects.dates('created_time', 'month', order="DESC")
     blog_dates_dict = {}
     for blog_date in blog_dates:
-        blog_count = Blog.objects.filter(created_time__year=blog_date.year, 
+        blog_count = Blog.objects.filter(created_time__year=blog_date.year,
                                          created_time__month=blog_date.month).count()
         blog_dates_dict[blog_date] = blog_count
 
@@ -64,11 +64,24 @@ def blogs_with_date(request, year, month):
 def blog_detail(request, blog_pk):
     blog = get_object_or_404(Blog, pk=blog_pk)
     read_cookie_key = read_statistics_once_read(request, blog)
-
     context = {}
     context['previous_blog'] = Blog.objects.filter(created_time__gt=blog.created_time).last()
     context['next_blog'] = Blog.objects.filter(created_time__lt=blog.created_time).first()
     context['blog'] = blog
-    response = render(request, 'blog/blog_detail.html', context) # 响应
-    response.set_cookie(read_cookie_key, 'true') # 阅读cookie标记
+    response = render(request, 'blog/blog_detail.html', context) # 产生相应。
+    response.set_cookie(read_cookie_key, 'true') # 已经阅读设置cookie标记。
     return response
+
+
+def blog_search(request):
+    search_name=request.POST.get('detail')
+    if search_name:
+        blogs_all_list = Blog.objects.filter(title__contains=search_name)
+        context = get_blog_list_common_data(request, blogs_all_list)
+        context['search_name']= search_name
+        return render(request,'blog/blog_search.html', context)
+    else:
+        pass
+        blogs_all_list = Blog.objects.all()
+        context = get_blog_list_common_data(request, blogs_all_list)
+        return render(request, 'blog/blog_list.html', context)

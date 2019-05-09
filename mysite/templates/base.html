@@ -36,6 +36,22 @@
                 </ul>
 
                 <ul class="nav navbar-nav navbar-right">
+                    <li>
+                        <form action="{% url 'blog_search' %}" method="POST" style="width: 400px;margin-top: 8px;">
+                            {% csrf_token %}
+                            <div class="input-group">
+                                <input type="text" class="form-control" placeholder="Search for..." name="detail">
+                                <span class="input-group-btn">
+                                    <button class="btn btn-default" type="submit">Go!</button>
+                                </span>
+                            </div><!-- /input-group -->
+                        </form>
+                    </li>
+                    {% if not user.is_superuser %}
+						<li class="{% block nav_feedback_active %}{% endblock %}">
+                            <a href=".">反馈</a>
+                        </li>
+					{% endif %}
                     {% if not user.is_authenticated %}
                         <li>
                             <a href="{% url 'login' %}?from={{ request.get_full_path }}">登录</a>

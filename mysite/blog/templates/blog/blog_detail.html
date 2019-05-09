@@ -135,7 +135,6 @@
             var html = $("#comment_" + reply_comment_id).html();
             $('#reply_content').html(html);
             $('#reply_content_container').show();
-
             $('html').animate({scrollTop: $('#comment_form').offset().top - 60}, 300, function(){
                 CKEDITOR.instances['id_text'].focus();
             });
@@ -160,10 +159,8 @@
                 $("#comment_error").text('评论内容不能为空');
                 return false;
             }
-
             // 更新数据到textarea
             CKEDITOR.instances['id_text'].updateElement();
-
             // 异步提交
             $.ajax({
                 url: "{% url 'update_comment' %}",
@@ -187,7 +184,7 @@
                                 '</div>';
                             comment_html = comment_html.format(data['pk'], data['username'], timeFormat(data['comment_time']), data['text'], data['content_type']);
                             $("#comment_list").prepend(comment_html);
-                        }else{ 
+                        }else{
                             // 插入回复
                             var reply_html = '<div class="reply">' +
                                         '<span>{1}</span>' +
@@ -204,7 +201,7 @@
                             reply_html = reply_html.format(data['pk'], data['username'], timeFormat(data['comment_time']), data['reply_to'], data['text'], data['content_type']);
                             $("#root_" + data['root_pk']).append(reply_html);
                         }
-                        
+
                         // 清空编辑框的内容
                         CKEDITOR.instances['id_text'].setData('');
                         $('#reply_content_container').hide();
@@ -214,7 +211,7 @@
                     }else{
                         // 显示错误信息
                         $("#comment_error").text(data['message']);
-                    }                    
+                    }
                 },
                 error: function(xhr){
                     console.log(xhr);
@@ -250,8 +247,8 @@
                         if(data['code']==400){
                             $('#login_modal').modal('show');
                         }else{
-                            alert(data['message']);    
-                        }                        
+                            alert(data['message']);
+                        }
                     }
                 },
                 error: function(xhr){
