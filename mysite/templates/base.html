@@ -49,7 +49,7 @@
                     </li>
                     {% if not user.is_superuser %}
 						<li class="{% block nav_feedback_active %}{% endblock %}">
-                            <a href=".">反馈</a>
+                            <a href="{% url 'sub_feedback' %}">反馈</a>
                         </li>
 					{% endif %}
                     {% if not user.is_authenticated %}

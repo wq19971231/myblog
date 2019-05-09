@@ -8,7 +8,7 @@ from django.urls import reverse
 from django.http import JsonResponse
 from django.core.mail import send_mail
 from .forms import LoginForm, RegForm, ChangeNicknameForm, BindEmailForm
-from .models import Profile
+from .models import Profile, FeedbackForm
 
 
 def login_for_medal(request):
@@ -136,3 +136,13 @@ def send_verification_code(request):
     else:
         data['status'] = 'ERROR'
     return JsonResponse(data)
+
+
+def sub_feedback(request):
+    if request.method == 'POST':
+        feedbackform = FeedbackForm()
+        feedbackform.detail = request.POST.get('detail')
+        feedbackform.save()
+        return redirect(request.GET.get('', reverse('home')))
+    else:
+        return render(request, 'user/sub_feedback.html', context={})

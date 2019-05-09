@@ -1,7 +1,12 @@
 from django.contrib import admin
 from django.contrib.auth.admin import UserAdmin as BaseUserAdmin
 from django.contrib.auth.models import User
-from .models import Profile
+from .models import Profile, FeedbackForm
+
+
+@admin.register(FeedbackForm)
+class FeedbackFormAdmin(admin.ModelAdmin):
+    list_display = ('id', 'detail', 'created_time')
 
 
 class ProfileInline(admin.StackedInline):

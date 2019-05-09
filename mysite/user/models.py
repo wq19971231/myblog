@@ -30,3 +30,11 @@ def has_nickname(self):
 User.get_nickname = get_nickname
 User.get_nickname_or_username = get_nickname_or_username
 User.has_nickname = has_nickname
+
+
+class FeedbackForm(models.Model):
+    detail = models.TextField()
+    created_time = models.DateTimeField(auto_now_add=True)
+
+    class Meta:
+        ordering = ['created_time']
